@@ -1,0 +1,26 @@
+{
+  "name": "freeboxos",
+  "version": "0.0.1",
+  "description": "Freeboxos for nodejs",
+  "dependencies": {
+    "async": "^2.0.0-rc.6",
+    "debug": "~2.2",
+    "request": "^2.72.0",
+    "xml2js": "^0.4.16"
+  },
+  "keywords": [
+    "freeboxos",
+    "freebox"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oeuillot/node-freeboxos.git"
+  },
+  "author": "Olivier Oeuillot",
+  "license": "GPL",
+  "readmeFilename": "README.md",
+  "engine": [
+    "node >=6"
+  ],
+  "main": "lib/freebox"
+}
