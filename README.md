@@ -5,52 +5,62 @@ A NodeJS module for the new FreeboxOS API.
 
 Please read also the doc : http://dev.freebox.fr/sdk/os.
 
-*Please consider it as a draft.*
 
 Connect & register
 -------------------
 
-###freebox.connect();
+### First connection & register
 You can start to use the module with these lines of code :
 
 ```
-  var freebox = require('./freebox/freebox'); 
 
-  freebox.connect();
+  const freebox=require('freeboxos');
+
+  const app = {
+      app_id        : "myApplicationId", 
+      app_name      : "My Application name",
+      app_version   : "0.0.1",
+      device_name   : "Nodejs API"
+  };
+
+  var freebox=new Freebox({app: app});
+
+  freebox.waitApplicationGranted(1000*60*2, (error, app) => {
+    if (error) {
+    	console.error(error);
+    	return;
+    }
+
+    console.log("granted app=",app);    
+    
+    freenox.saveJSON("/tmp/freebox.infos", (error) => {
+    	if (error) {
+    		console.error(error);
+    		return;
+		}
+    });
+  });
   
-  freebox.on('ready', function(box) {
+  ...or you can use Promise pattern ...
   
-    //Some stuff
-  
+  freebox.waitApplicationGranted(1000*60*2).then((app) => {
+    console.log("granted app=",app);
+    
+    return freebox.saveJSON("/tmp/freebox.json");
+    
+  }, (error) => {
+    console.error("error=",error);
   });
   
 ```
 
-You could also pass params. For example if you want to specifiy the address of the box, or if you alredy have an app_token for your app.
+### If you already have a valid token (and saved it with saveJSON)
 
 ```
-freebox.connect({
-  'ip'        : 'mafreebox.freebox.fr', (optional)
-  'port'      : 80, (optional)
-  'app_token' : '012345', (optional)
-  'track_id'  : '12' (optional)
-});
-```
+  const freebox=require('freeboxos');
 
-
-### freebox.register();
-Before doing anything, you need to declare the app to the Freebox. A message will be prompt on the lcd screen asking the user to accept or deny.
-
-```
-freebox.register();
-```
-
-On can save appToken, trackId and status by listening at :
-
-```
-freebox.on('registered', function(params) {
-  console.log(params);
-});
+  var freebox=new Freebox({jsonPath: '/tmp/toto.json'});
+  
 ```
 
 Stats
@@ -58,7 +68,7 @@ Stats
 ### freebox.stats(db, date_start, date_end, precision, fields, next)
 Echo freebox's stats. Example :
 ```
-freebox.stats(temp, null, null, null, null, function(msg) {
+freebox.stats('temp', null, null, null, null, (error, msg) => {
   console.log(msg);
 });
 ```
@@ -71,7 +81,7 @@ Downloads
 ### freebox.downloadsStats(next)
 Echo download stats with :
 ```
-freebox.downloadsStats(function(msg){
+freebox.downloadsStats((error, msg) => {
   console.log(msg);
 });
 ```
@@ -83,7 +93,7 @@ freebox.downloadsStats(function(msg){
 freebox.addDownloads(
   "http://blog.baillet.eu/public/ciel-bleu-sans-avion-20100417-imgis5346.jpg\nhttp://www.8alamaison.com/wp-content/uploads/2013/04/z2354-carton-rouge3.gif",
   null, false, null, null, null,
-  function(msg) {
+  function(error, msg) {
     console.log(msg);
   }
  );
@@ -102,7 +112,7 @@ Actions :
 - deleteAndErase (delete the download and erase the files downloaded)   
 
 ```
-freebox.downloads(2, udpate, {"io_priority": "high","status": "stopped"}, function(msg){
+freebox.downloads(2, 'udpate', {"io_priority": "high","status": "stopped"}).then((result) => {
   console.log(msg);
 });
 ```
@@ -112,8 +122,10 @@ Calls
 ### freebox.calls(next);
 Return all the calls save in the box.
 ```
-freebox.calls(function(msg){
+freebox.calls().then((msg) => {
   console.log(msg);
+}, (error) => {
+	console.error(error);
 });
 ```
 
@@ -126,13 +138,13 @@ Actions :
 
 Example : read a specific call
 ```
-freebox.call(1, 'read', null, function(msg) {
+freebox.call(1, 'read', null, (error, msg) => {
   console.log(msg);
 });
 ```
 Example : update a call 
 ```
-freebox.call(1, 'update', {'new' : false}, function(msg) {
+freebox.call(1, 'update', {'new' : false}, (error, msg) => {
   console.log(msg);
 });
 ```
