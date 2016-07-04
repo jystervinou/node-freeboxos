@@ -1,5 +1,5 @@
 {
-  "name": "freeboxos",
+  "name": "node-freeboxos",
   "version": "0.0.1",
   "description": "Freeboxos for nodejs",
   "dependencies": {

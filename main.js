@@ -16,7 +16,7 @@ program.command('token').description("Return token").action( ()=> {
       app_id        : program.app_id || "freeboxos", 
       app_name      : program.app_name || "Test node app",
       app_version   : program.app_version || '0.0.1',
-      device_name   : program.device_name || "My computer"
+      device_name   : program.device_name || "NodeJs-API"
   };
 
 

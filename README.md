@@ -6,6 +6,12 @@ A NodeJS module for the new FreeboxOS API.
 Please read also the doc : http://dev.freebox.fr/sdk/os.
 
 
+## Installation
+
+```sh
+npm install node-freeboxos
+```
+
 Connect & register
 -------------------
 
@@ -14,7 +20,7 @@ You can start to use the module with these lines of code :
 
 ```
 
-  const freebox=require('freeboxos');
+  const freebox=require('node-freeboxos');
 
   const app = {
       app_id        : "myApplicationId", 
