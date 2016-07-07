@@ -3,3 +3,5 @@
 /.project
 /.tern-project
 /delabarre.json
+/.idea/
+/node-freeboxos.iml
