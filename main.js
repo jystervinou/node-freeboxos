@@ -28,9 +28,14 @@ program.command('token').description("Return token").action( ()=> {
 });
 
 program.command('calls').description("Return token").action( ()=> {
-  var app = JSON.parse(fs.readFileSync(program.authorization));
+  var config = {app};
 
-  var freebox=new Freebox({app: app});
+  if (program.authorization) {
+    config.jsonPath = program.authorization;
+    config.jsonAutoSave = true;
+  }
+
+  var freebox = new Freebox(config);
 
   freebox.calls((error, calls) => {
     if (error) {
