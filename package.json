@@ -1,6 +1,6 @@
 {
   "name": "node-freeboxos",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Freeboxos for nodejs",
   "dependencies": {
     "async": "^2.0.0-rc.6",
